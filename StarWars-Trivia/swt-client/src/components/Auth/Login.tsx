@@ -20,6 +20,7 @@ class Login extends React.Component<AcceptedProps,ApprovedState>{
                 password: "",
                 signup: false
             }
+
         }
         
 
@@ -62,7 +63,7 @@ class Login extends React.Component<AcceptedProps,ApprovedState>{
         render(){
             if(this.state.signup){
                 return(
-                    <Auth toggle={this.toggleSignUp} />
+                    <Auth toggle={this.toggleSignUp.bind(this)} />
                 )
             }
             return (

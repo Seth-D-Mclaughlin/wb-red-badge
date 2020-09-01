@@ -6,6 +6,7 @@ const validateSession = require('../middleware/validate-session');
 const bountyhunter = require("../models/bountyhunter");
 
 router.post("/create", validateSession, function(req,res){
+    console.log(req.body)
     BountyHunter.create({
         name:req.body.bountyhunter.name,
         points:req.body.bountyhunter.points

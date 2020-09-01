@@ -12,11 +12,16 @@ module.exports = (sequelize, DataTypes) => {
             //   ["1",
             //    "What is the name of Han Solo’s ship?",
             //    "Millennium Falcon",
+            //    "Millennium Falcon",
+            //    "Millennium Falcon",
             //  "REB",]
             // ],
             // ["2", "Who played the part of Mace Windu?", "Mace Windu", "GE"],
             // ["3", "Who killed Han Solo?", "Kylo Ren", "RES"],
     },
+    correct:{
+      type: DataTypes.STRING
+    }
   });
   return Question;
 };

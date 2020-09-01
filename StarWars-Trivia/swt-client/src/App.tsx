@@ -11,7 +11,7 @@ type MainState = {
 };
 
 const App: React.FunctionComponent = () => {
-  const [token, setToken] = React.useState();
+  const [token, setToken] = React.useState(localStorage.getItem("token: "));
 
   const updateToken = (newToken: string) => {
     localStorage.setItem("token: ", newToken);

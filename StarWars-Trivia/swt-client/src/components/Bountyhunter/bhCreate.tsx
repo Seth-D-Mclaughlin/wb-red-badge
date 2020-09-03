@@ -3,7 +3,8 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
 interface AcceptedProps{
-  token: string
+  token: string,
+  setName: any
 }
 type BountyHunter = {
   name: string;
@@ -47,6 +48,7 @@ class CreateBounty extends React.Component<AcceptedProps, BountyHunter> {
       console.log(json)
         if(json.message === "Bounty Hunter created successfully!"){
            console.log("BOUNTY HAS BEEN MADE");
+           this.props.setName(json.bountyhunter.name)
        }
   })
   .catch(err => console.log(err))

@@ -5,6 +5,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import { threadId } from "worker_threads";
 
 
 
@@ -17,7 +18,7 @@ type Question = {
 };
 interface S {
   questions: Question[];
-  correct: number;
+  correct: any;
 }
 
 class GetQuestions extends React.Component<{}, S> {
@@ -26,20 +27,42 @@ class GetQuestions extends React.Component<{}, S> {
 
     this.state = {
       questions: [],
-      correct: 0,
+      correct: {},
     };
   }
 
-  increment() {
-    this.setState({
-      correct: this.state.correct + 1,
-    });
+  increment(event: any, question: String) {
+    let key = question[0];
+    const newAns = {...this.state.correct, [key]:event.target.innerText}
+    this.setState({...this.state, correct: newAns})
+    console.log(this.state.correct);
   }
 
   displayResults(){
-      
-    return alert(`${this.state.correct} / 10`);
+    let count = 0;
+    if (this.state.correct.length < this.state.questions.length) {alert("answer all questions biatch"); return;}
+    for(let i in this.state.questions){
+      console.log(this.state.questions[i]["questions"][0])
+      if(this.state.correct[this.state.questions[i]["questions"][0]].toLowerCase() === this.state.questions[i]["questions"][2].toLowerCase()){
+        count += 1
+      }
+    }
+    fetch("http://localhost:3000/bountyhunter/update",{
+      method: "PUT",
+      body: JSON.stringify({
+        points: count
+      }),
+      headers:{
+        'Content-Type' : 'application/json',
+        'Authorization': localStorage.getItem("token: ")!.toString()
+      }
+    })
+    .then((res) => res.json())
+    .then(json => {console.log(json)})
+
+    return alert(`${count}/10`)
   }
+
   componentDidMount() {
     fetch("http://localhost:3000/question/", {
       method: "GET",
@@ -51,12 +74,11 @@ class GetQuestions extends React.Component<{}, S> {
   }
 
   render() {
-    console.log(this.state.correct);
     let display: any = [];
     if (this.state.questions.length > 0) {
       for (let i = 0; i < this.state.questions.length; i++) {
         display.push(
-          <div>
+          <div key={this.state.questions[i]["questions"][0]}>
             <Card style={{backgroundColor: "rgb(143, 168, 194)", minWidth: 275, margin: 12, fontSize: 14, fontWeight: "bold"}}>
               <CardContent>
                 <Typography color="textPrimary" gutterBottom>
@@ -64,13 +86,11 @@ class GetQuestions extends React.Component<{}, S> {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button type="submit" onClick={this.increment.bind(this)}>
-                  {this.state.questions[i]["questions"][2]}
+                <Button disabled = {this.state.correct[this.state.questions[i]["questions"][0]] ? true: false} type="submit" value= "true" onClick={(e) => this.increment(e, this.state.questions[i]["questions"])}>
+                  true
                 </Button>
-                <Button type="submit">
-                  {this.state.questions[i]["questions"][2] === "true"
-                    ? "false"
-                    : "true"}
+                <Button disabled = {this.state.correct[this.state.questions[i]["questions"][0]] ? true: false} type="submit" onClick={(e) => this.increment(e, this.state.questions[i]["questions"])}>
+                    false
                 </Button>
               </CardActions>
             </Card>

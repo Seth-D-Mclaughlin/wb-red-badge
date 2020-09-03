@@ -28,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             defaultValue: 0
         },
+        userId:{
+            type: DataTypes.INTEGER,
+            allowNull: false
+        }
         // responseId:{
         //     type: Sequelize.UUID,
         //     foreignKey: true,

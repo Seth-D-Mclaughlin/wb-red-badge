@@ -7,8 +7,12 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { threadId } from "worker_threads";
 
-
-
+interface P {
+  bhName: any
+}
+type bhName ={
+  points: number,
+}
 type Question = {
   questions: string;
   // choice_1: string,
@@ -21,8 +25,8 @@ interface S {
   correct: any;
 }
 
-class GetQuestions extends React.Component<{}, S> {
-  constructor(props: S) {
+class GetQuestions extends React.Component<P, S> {
+  constructor(props: P) {
     super(props);
 
     this.state = {
@@ -40,17 +44,19 @@ class GetQuestions extends React.Component<{}, S> {
 
   displayResults(){
     let count = 0;
-    if (this.state.correct.length < this.state.questions.length) {alert("answer all questions biatch"); return;}
+    if (this.state.correct.length < this.state.questions.length) {alert("answer all questions please"); return;}
     for(let i in this.state.questions){
-      console.log(this.state.questions[i]["questions"][0])
       if(this.state.correct[this.state.questions[i]["questions"][0]].toLowerCase() === this.state.questions[i]["questions"][2].toLowerCase()){
         count += 1
       }
     }
+    let data = this.props.bhName;
     fetch("http://localhost:3000/bountyhunter/update",{
       method: "PUT",
       body: JSON.stringify({
-        points: count
+       bountyhunter:{
+         points: count += data["points"]
+       }
       }),
       headers:{
         'Content-Type' : 'application/json',
@@ -74,6 +80,7 @@ class GetQuestions extends React.Component<{}, S> {
   }
 
   render() {
+    console.log(this.props.bhName);
     let display: any = [];
     if (this.state.questions.length > 0) {
       for (let i = 0; i < this.state.questions.length; i++) {

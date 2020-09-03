@@ -6,7 +6,7 @@ import ButtonAppBar from "./components/NavBar/Navbar"
 import CreateBounty from "./components/Bountyhunter/bhCreate"
 import GetQuestions from "./components/Questions/get_questions"
 import BhParent from "./components/Bountyhunter/bhParent"
-
+import Main from "./components/Main/Main"
 type MainState = {
   token: string;
 };
@@ -25,7 +25,7 @@ const App: React.FunctionComponent = () => {
       })
       .then(res => res.json())
       .then(data => {
-          setName(data[0].name);
+          setName(data[0]);
       })
   }
 }, [token])
@@ -37,14 +37,18 @@ const App: React.FunctionComponent = () => {
 
 
   return (
+    <main>
+
     <div className="App">
       <ButtonAppBar/>
       <Box component="span" m={1}>
-      {token ? <BhParent token ={token} bhName={name} setName={setName} /> : <Login updateToken ={updateToken}/>}
+      {/* {token ? <BhParent token ={token} bhName={name} setName={setName} /> : <Login updateToken ={updateToken}/>} */}
+       {token ? <Main bhName={name}/>: <Login updateToken ={updateToken}/>} 
 
       </Box>
 
     </div>
+    </main>
   );
 }
 

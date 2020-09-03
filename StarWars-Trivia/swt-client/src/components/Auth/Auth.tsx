@@ -65,9 +65,6 @@ class SignUpForm extends React.Component<AcceptedProps,User> {
     return (
     <div className=" TestLoginForm ">
     <form onSubmit={this.handleSubmitevents.bind(this)}>
-    {
-    //handle error condition
-    }
     <label>User Name</label>
     <input type="text" value={this.state.username}  onChange={(e)=> this.setState({...this.state,username: e.target.value})}/>
     <label>Email</label>

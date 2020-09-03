@@ -13,7 +13,7 @@ const BhParent = ({token, bhName, setName}: TokenProp) =>{
 
     return(
         <div>
-        {bhName ? <GetQuestions/> : <CreateBounty token={token} setName={setName} />}
+        {bhName ? <GetQuestions bhName={bhName}/> : <CreateBounty token={token} setName={setName} />}
         </div>
     )
 }

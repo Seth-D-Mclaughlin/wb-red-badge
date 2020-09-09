@@ -2,6 +2,7 @@ const router = require("express").Router();
 const User = require("../db").import("../models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const validateSession = require("../middleware/validate-session");
 // USER SIGNUP //
 router.post("/create", function (req, res) {
   User.create({
@@ -17,7 +18,7 @@ router.post("/create", function (req, res) {
       });
 
       res.json({
-        user: user,
+        user: user.username,
         message: "User successfully created!",
         sessionToken: token,
       });
@@ -62,11 +63,19 @@ router.post("/login", function (req, res) {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-
 //Get all
 router.get("/", (req, res) => {
   User.findAll()
-  .then(users => res.status(200).json(users))
-  .catch(err=>res.status(500).json({error: err}))
-})
+    .then((users) => res.status(200).json(users))
+    .catch((err) => res.status(500).json({ error: err }));
+});
+
+router.get("/1", validateSession, (req, res) => {
+  let userId = req.user.id;
+  User.findAll({
+    where: { userId: userId },
+  })
+    .then((users) => res.status(200).json(users))
+    .catch((err) => res.status(500).json({ error: err }));
+});
 module.exports = router;

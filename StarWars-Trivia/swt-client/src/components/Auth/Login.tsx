@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
 interface AcceptedProps {
   updateToken: (newToken: string) => void;
 }
@@ -18,13 +21,6 @@ class Login extends Component<AcceptedProps, ApprovedState> {
       password: "",
       signup: false,
     };
-  }
-
-  toggleSignUp() {
-    this.setState({
-      ...this.state,
-      signup: !this.state.signup,
-    });
   }
 
   handleSubmitevents(event: React.FormEvent<HTMLFormElement>) {
@@ -56,35 +52,38 @@ class Login extends Component<AcceptedProps, ApprovedState> {
 
   render() {
     return (
-      <div className=" Login ">
+      <Container maxWidth="sm">
         <form onSubmit={this.handleSubmitevents.bind(this)}>
-          {
-            //handle error condition
-          }
-          <label>Email</label>
-          <input
+          <TextField
+            label="Email"
             type="email"
             value={this.state.email}
             onChange={(e) =>
               this.setState({ ...this.state, email: e.target.value })
             }
           />
-          <label>Password</label>
-          <input
+          <br></br>
+
+          <TextField
+            label="Password"
             type="password"
             value={this.state.password}
             onChange={(e) =>
               this.setState({ ...this.state, password: e.target.value })
             }
           />
-          <input type="submit" value="Log In" data-test="submit" />
+          <br></br>
+          <Button
+            size="small"
+            variant="outlined"
+            type="submit"
+            value="Log In"
+            data-test="submit"
+          >
+            Log In
+          </Button>
         </form>
-        <button
-          type="submit"
-          value="Sign up"
-          onClick={this.toggleSignUp.bind(this)}
-        />
-      </div>
+      </Container>
     );
   }
 }

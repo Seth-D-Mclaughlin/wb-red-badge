@@ -3,10 +3,11 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import User from "../../types/User";
+import { TextField, Container, Button } from "@material-ui/core";
 
 interface AcceptedProps {
   token: string;
-  updateToken: (token?: string) => void;
+  updateToken: (token: string) => void;
 }
 
 interface AuthState extends User {}
@@ -57,36 +58,49 @@ class SignUpForm extends Component<AcceptedProps, AuthState> {
 
   render() {
     return (
-      <div className=" TestLoginForm ">
+      <Container maxWidth="sm">
         <form onSubmit={this.handleSubmitevents}>
-          <label>User Name</label>
-          <input
+          <TextField
+            label="Username"
             type="text"
             value={this.state.username}
             onChange={(e) =>
               this.setState({ ...this.state, username: e.target.value })
             }
           />
-          <label>Email</label>
-          <input
+          <br></br>
+          <TextField
+            label="Email"
             type="email"
             value={this.state.email}
             onChange={(e) =>
               this.setState({ ...this.state, email: e.target.value })
             }
           />
-          <label>Password</label>
-          <input
+          <br></br>
+
+          <TextField
+            label="Password"
             type="password"
             value={this.state.password}
             onChange={(e) =>
               this.setState({ ...this.state, password: e.target.value })
             }
           />
-          <input type="submit" value="Log In" data-test="submit" />
+          <br></br>
+
+          <Button
+            size="small"
+            variant="outlined"
+            type="submit"
+            value="Sign Up"
+            data-test="submit"
+          >
+            Sign up
+          </Button>
         </form>
         {this.props.token ? <Redirect to="/" /> : <></>}
-      </div>
+      </Container>
     );
   }
 }
